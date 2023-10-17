@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Chat</title>
+    <style>
+        /* Example styling */
+        .left-container {
+            height: 95vh;
+            width: 375px; 
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            float: left; 
+            position: relative;
+        }  
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .button-group {
+            position: absolute;
+            bottom: 10px; /* Distance from the bottom of the container */
+            left: 100px;  
+        }
+
+        .button-group button {
+            padding: 6px 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .doctor-identity {
+            position: absolute;
+            top: 10px; /* distance from the top */
+            right: 10px; /* distance from the right */
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9; /* light grey background for visibility */
+            border-radius: 5px; /* rounded corners */
+            display: flex;
+            flex-direction: column; /* stack items vertically */
+            align-items: center; /* center items horizontally */
+        }
+
+        .doctor-identity img {
+            width: 50px; /* adjust as needed */
+            height: 50px; /* adjust as needed */
+            border-radius: 50%; /* makes the image circular */
+            margin-bottom: 8px; /* spacing between image and name */
+        }
+
+        .doctor-identity span {
+            margin-bottom: 10px; /* spacing between name and button */
+        }
+
+        .doctor-identity .sign-out-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        /* Modal styles */
+        .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            width: 50vw;  /* 50% of the viewport width */
+            height: 50vh; /* 50% of the viewport height */
+            border-radius: 5px;
+            text-align: center;
+            overflow: auto; /* Add scrolling if content overflows */
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="left-container">
+    <p style="text-align: center;">Waiting List</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Patient Name</th>
+                <th>Appointment Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Sample rows with radio buttons -->
+            <tr>
+                <td><input type="radio" name="patientSelect" value="JohnDoe"></td>
+                <td>John Doe</td>
+                <td>10:00 AM</td>
+            </tr>
+            <tr>
+                <td><input type="radio" name="patientSelect" value="JaneSmith"></td>
+                <td>Jane Smith</td>
+                <td>10:30 AM</td>
+            </tr>
+            <!-- More rows can go here -->
+        </tbody>
+    </table>
+    <!-- Buttons below the table -->
+    <div class="button-group">
+        <button type="button" onclick="showPatientInfo()">Record</button>
+        <button type="button" onclick="redirectToIndex()">Connect</button>
+    </div>
+</div>
+<div class="doctor-identity">
+    <img src="/doctor image/1.jpg" alt="Doctor's Image"> <!-- Replace with the actual image path -->
+    <span>Dr. John Doe</span> <!-- Replace with the actual doctor's name -->
+    <button class="sign-out-btn">Sign Out</button>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="patientModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p id="patientInfoText">Patient info will be displayed here.</p>
+    </div>
+</div>
+
+<script>
+    function showPatientInfo() {
+        const radios = document.querySelectorAll('input[type="radio"][name="patientSelect"]');
+        let selectedPatient = null;
+
+        radios.forEach(radio => {
+            if (radio.checked) {
+                selectedPatient = radio.value;
+            }
+        });
+
+        if (selectedPatient) {
+            const patientInfoText = document.getElementById('patientInfoText');
+            patientInfoText.textContent = `Information for ${selectedPatient}`;
+            document.getElementById('patientModal').style.display = 'flex';
+        } else {
+            alert("Please select a patient first.");
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('patientModal').style.display = 'none';
+    }
+
+    function redirectToIndex() {
+        window.location.href = "index.html";
+    }
+</script>
+</body>
+</html>

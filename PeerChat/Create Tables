@@ -1,0 +1,42 @@
+doctor table: 
+field: 
+first name, last name, ID
+nvarchar 20 
+
+patient table:
+field: 
+general information: first name, last name, ID, doctor, gender, health number, date of birth 
+medical information: allergy or not, medical history, reason of visit
+
+appointment table: 
+field:
+doctor ID, patient ID, appointment time
+
+CREATE TABLE doctor (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE patient (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    doctor INT,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    health_number VARCHAR(255) UNIQUE NOT NULL,
+    date_of_birth DATE NOT NULL,
+    allergy_or_not TINYINT(1) DEFAULT 0, -- 0 means no allergy, 1 means has allergy
+    medical_history TEXT,
+    reason_of_visit VARCHAR(500),
+    FOREIGN KEY (doctor) REFERENCES doctor(ID)
+);
+
+CREATE TABLE appointment (
+    appointment_id INT PRIMARY KEY AUTO_INCREMENT,
+    doctor_id INT,
+    patient_id INT,
+    appointment_time DATETIME NOT NULL,
+    FOREIGN KEY (doctor_id) REFERENCES doctor(ID),
+    FOREIGN KEY (patient_id) REFERENCES patient(ID)
+);
