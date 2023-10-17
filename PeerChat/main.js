@@ -1,8 +1,14 @@
-let APP_ID = "2e30b5d9f72e47b08934d61fc7092f12";
-
+let APP_ID = "8310514e8aff413b87abb9d0bdb095bb";
 
 let token = null;
-let uid = String(Math.floor(Math.random() * 10000))
+function uuidv4() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+  
+console.log(uuidv4())
+let uid = uuidv4()
 
 let client;
 let channel;
@@ -36,9 +42,10 @@ let constraints = {
     audio:true
 }
 
+
 let init = async () => {
     client = await AgoraRTM.createInstance(APP_ID)
-    await client.login({uid, token})
+    await client.login({uid,token})
 
     channel = client.createChannel(roomId)
     await channel.join()
